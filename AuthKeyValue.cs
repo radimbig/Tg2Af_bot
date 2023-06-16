@@ -5,14 +5,14 @@ namespace Telegram2A
     {
         public int Id;
         public int ForeignId;
-        public string Key = null!;
-        public string Value = null!;
-
+        public string NameOfAuth = null!;
+        public string Secret = null!;
+        public User Owner = null!;
         public AuthKeyValue() { }
-        public AuthKeyValue(string key,string value)
+        public AuthKeyValue(string nameOfAuth,string secret)
         {
-            Key = key;
-            Value = value;
+            NameOfAuth = nameOfAuth;
+            Secret = secret;
         }
     }
 }

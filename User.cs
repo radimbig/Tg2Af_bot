@@ -10,7 +10,8 @@
 
         public User(int telegramId, string name)
         {
-
+            TelegramId = telegramId;
+            Name = name;
         }
     }
 }
