@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Telegram2A;
+using Telegram2A.Database;
 
 #nullable disable
 
 namespace Telegram2A.Migrations
 {
-    [DbContext(typeof(Database))]
-    [Migration("20230616133037_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(MyDbContext))]
+    [Migration("20230617220754_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace Telegram2A.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.7");
 
-            modelBuilder.Entity("Telegram2A.AuthKeyValue", b =>
+            modelBuilder.Entity("Telegram2A.Core.AuthKeyValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -28,14 +28,24 @@ namespace Telegram2A.Migrations
                     b.Property<int>("ForeignId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("NameOfAuth")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("NameOfAuth");
+
+                    b.Property<string>("Secret")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Secret");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ForeignId");
 
-                    b.ToTable("AuthDict", (string)null);
+                    b.ToTable("AuthDict");
                 });
 
-            modelBuilder.Entity("Telegram2A.User", b =>
+            modelBuilder.Entity("Telegram2A.Core.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,12 +60,12 @@ namespace Telegram2A.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Telegram2A.AuthKeyValue", b =>
+            modelBuilder.Entity("Telegram2A.Core.AuthKeyValue", b =>
                 {
-                    b.HasOne("Telegram2A.User", "Owner")
+                    b.HasOne("Telegram2A.Core.User", "Owner")
                         .WithMany("AuthKeyValues")
                         .HasForeignKey("ForeignId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -64,7 +74,7 @@ namespace Telegram2A.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Telegram2A.User", b =>
+            modelBuilder.Entity("Telegram2A.Core.User", b =>
                 {
                     b.Navigation("AuthKeyValues");
                 });

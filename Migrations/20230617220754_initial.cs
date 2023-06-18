@@ -5,13 +5,13 @@
 namespace Telegram2A.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "users",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -21,7 +21,7 @@ namespace Telegram2A.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,15 +30,17 @@ namespace Telegram2A.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ForeignId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ForeignId = table.Column<int>(type: "INTEGER", nullable: false),
+                    NameOfAuth = table.Column<string>(type: "TEXT", nullable: false),
+                    Secret = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuthDict", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AuthDict_users_ForeignId",
+                        name: "FK_AuthDict_Users_ForeignId",
                         column: x => x.ForeignId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -56,7 +58,7 @@ namespace Telegram2A.Migrations
                 name: "AuthDict");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "Users");
         }
     }
 }

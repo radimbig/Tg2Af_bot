@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Telegram2A.Core;
 
 namespace Telegram2A.Manipulation.AuthDict.Commands
 {

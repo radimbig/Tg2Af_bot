@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
 
-namespace Telegram2A
+namespace Telegram2A.Tools
 {
     public static class Auth
     {
@@ -24,12 +19,12 @@ namespace Telegram2A
             foreach (char c in base32)
             {
                 int charValue = base32Chars.IndexOf(c);
-                value = (value << 5) | charValue;
+                value = value << 5 | charValue;
                 bitsRemaining += 5;
 
                 if (bitsRemaining >= 8)
                 {
-                    buffer[byteIndex++] = (byte)(value >> (bitsRemaining - 8));
+                    buffer[byteIndex++] = (byte)(value >> bitsRemaining - 8);
                     bitsRemaining -= 8;
                 }
             }
@@ -58,7 +53,7 @@ namespace Telegram2A
             int binaryCode = (hash[offset] & 0x7F) << 24 |
                              (hash[offset + 1] & 0xFF) << 16 |
                              (hash[offset + 2] & 0xFF) << 8 |
-                             (hash[offset + 3] & 0xFF);
+                             hash[offset + 3] & 0xFF;
 
             // Convert the binary code to a 6-digit decimal code
             int code = binaryCode % 1000000;
